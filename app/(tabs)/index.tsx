@@ -1,74 +1,131 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, TextInput } from "react-native";
+import { Ionicons, Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import ScheduleCalendar from "@/components/ui/ScheduleComponent";
+import DoctorIcon from "@/components/icons/DoctorIcon";
+import SliderIcon from "@/components/icons/SliderIcon";
+import GlassIcon from "@/components/icons/GlassIcon";
+import originalDoctors from "@/components/data/Doctor";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+
 
 export default function HomeScreen() {
+  const router = useRouter()
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container}>
+           <View style={{marginTop: 30 }} />
+    <View style={styles.header}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Image source={require("../../assets/images/9585011ef9f01ffe611c12e3d0e6ddb0.png")} style={styles.avatar} />
+        <View style={{ marginLeft: 10 }}>
+          <Text style={styles.welcomeText}>Hi, WelcomeBack</Text>
+          <Text style={styles.userName}>John Doe</Text>
+        </View>
+      </View>
+      <View style={styles.iconRow}>
+        <View style={{backgroundColor: "#CAD6FF", height: 40, width: 40, justifyContent: "center", alignItems: "center", display: "flex", borderRadius: 100}}>
+        <Ionicons name="notifications-outline" size={20} color="#444" style={styles.icon} />
+        </View>
+        <View style={{backgroundColor: "#CAD6FF", height: 40, width: 40, justifyContent: "center", alignItems: "center", display: "flex", borderRadius: 100}}>
+        <Feather name="settings" size={20} color="#444" />
+        </View>
+     
+       
+      </View>
+    </View>
+
+
+    <View style={styles.tabRow}>
+     <TouchableOpacity style={{justifyContent: "center", alignItems: "center"}} onPress={() => router.push("/doctors")}>
+     <DoctorIcon />
+     <Text style={styles.tab}>Doctors</Text>
+     </TouchableOpacity>
+     <TouchableOpacity style={{justifyContent: "center", alignItems: "center"}} onPress={() => router.push("/favorites")}>
+     <AntDesign name="hearto"  size={16} style={{marginBottom: 5}} color="#2260FF" />
+     <Text style={styles.tab}>Favorite</Text>
+     </TouchableOpacity>
+     
+      <View style={styles.searchBox}>
+        <View style={{width: 30, height: 30, backgroundColor: "#FFFFFF", justifyContent: "center", alignItems: "center", borderRadius: 100}}>
+      <SliderIcon />
+        </View>
+        <TextInput style={{backgroundColor: "transparent", flex: 1, height: 32}} keyboardType="name-phone-pad" />
+
+      <GlassIcon style={{marginVertical: "auto"}} />
+      </View>
+    </View>
+
+    <ScheduleCalendar />
+
+   
+<View style={{marginTop: 40}} />
+    {originalDoctors.map((doctor) => (
+      <View key={doctor.id} style={styles.doctorCard}>
+        <Image source={doctor.image} style={styles.docImage} />
+        <View style={styles.docContent}>
+          <View style={{backgroundColor: "#fff", borderRadius: 13, paddingVertical: 12, paddingLeft: 20, marginBottom: 10}}>
+          <Text style={styles.docName}>{doctor.name}</Text>
+          <Text style={styles.docSpecialty}>{doctor.specialty}</Text>
+          </View>
+          <View style={styles.docStats}>
+            <View style={{flexDirection: "row", gap: 10}}>
+            <View style={styles.stat}><Ionicons name="star" size={14} color="#2260FF" /><Text style={{color:"#2260FF"}}> {doctor.rating}</Text></View>
+            <View style={styles.stat}><Ionicons name="chatbubble-ellipses-outline" size={14} color="#2260FF" /><Text style={{color:"#2260FF"}}> {doctor.reviews}</Text></View>
+            </View>
+
+            <View style={{flexDirection: "row", gap: 10}}>
+            <View style={{width: 25, height: 25, backgroundColor: "#FFFFFF", justifyContent: "center", alignItems: "center", borderRadius: 100}}>
+          <Ionicons name="help-outline" size={18} color="#2260FF" style={styles.iconBtn} />
+            </View>
+            <View style={{width: 25, height: 25, backgroundColor: "#FFFFFF", justifyContent: "center", alignItems: "center", borderRadius: 100}}>
+            <Ionicons name="heart" size={18} color="#2260FF" style={styles.iconBtn} />
+            </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    ))}
+    <View style={{marginBottom: 90}} />
+  </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  container: { flex: 1, backgroundColor: "#F6F8FF", paddingVertical: 16 },
+  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16, marginHorizontal: 20 },
+  avatar: { width: 50, height: 50, borderRadius: 25 },
+  welcomeText: { color: "#2260FF" },
+  userName: { fontWeight: "bold", fontSize: 16 },
+  iconRow: { flexDirection: "row", gap: 16 },
+  icon: { marginRight: 0 },
+  tabRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12, marginHorizontal: 20, gap: 10 },
+  tab: { fontWeight: "light", color: "#2260FF", fontSize: 14 },
+  searchBox: { flex: 1,  backgroundColor: "#CAD6FF", borderRadius: 20, marginHorizontal: 8, justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 7, paddingVertical: 5 },
+  datesRow: { flexDirection: "row", marginBottom: 16 },
+  dateBox: { paddingVertical: 8, paddingHorizontal: 14, backgroundColor: "#DCE3F9", borderRadius: 12, marginRight: 8 },
+  activeDate: { backgroundColor: "#2260FF" },
+  dateText: { color: "#444" },
+  activeDateText: { color: "#fff", fontWeight: "bold" },
+  appointmentBox: { marginBottom: 16 },
+  scheduleText: { fontWeight: "600", color: "#444", marginBottom: 6 },
+  appointmentCard: { backgroundColor: "#C4D3FF", borderRadius: 12, padding: 12 },
+  doctorName: { fontWeight: "bold", color: "#003B95", marginBottom: 4 },
+  description: { color: "#000", fontSize: 13 },
+  doctorCard: { flexDirection: "row", backgroundColor: "#CAD6FF", padding: 12, borderRadius: 16, marginBottom: 20, marginHorizontal: 20 },
+  docImage: { width: 60, height: 60, borderRadius: 30, marginRight: 12 },
+  docContent: { flex: 1 },
+  docName: { fontWeight: "bold", fontSize: 14 },
+  docSpecialty: { color: "#555", fontSize: 13, marginBottom: 0 },
+  docStats: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", justifyContent: "space-between" },
+  stat: { flexDirection: "row", alignItems: "center", backgroundColor: "#fff", paddingVertical: 3, paddingHorizontal: 15, borderRadius: 13, justifyContent: "flex-end" },
+  iconBtn: { marginLeft: 0 },
+
+  ic:{
+    
+  }
 });
+
+
+
