@@ -62,7 +62,10 @@ export default function HomeScreen() {
    
 <View style={{marginTop: 40}} />
     {originalDoctors.map((doctor) => (
-      <View key={doctor.id} style={styles.doctorCard}>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/doctor-info", params: { id: doctor.id } })}>
+
+     
+      <View key={doctor.id} style={styles.doctorCard} >
         <Image source={doctor.image} style={styles.docImage} />
         <View style={styles.docContent}>
           <View style={{backgroundColor: "#fff", borderRadius: 13, paddingVertical: 12, paddingLeft: 20, marginBottom: 10}}>
@@ -86,6 +89,7 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
+      </TouchableOpacity>
     ))}
     <View style={{marginBottom: 90}} />
   </ScrollView>
